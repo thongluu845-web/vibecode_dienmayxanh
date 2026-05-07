@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /gio-hang
+Disallow: /tai-khoan
+Disallow: /api/
+
+Sitemap: https://dienmayxanh.com/sitemap.xml
