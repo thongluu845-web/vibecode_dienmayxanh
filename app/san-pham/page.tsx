@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { products, categories } from "@/lib/data";
 import ProductCard from "@/components/product/ProductCard";
+import Link from "next/link";
 import { FiSliders, FiChevronDown } from "react-icons/fi";
 
 export const metadata: Metadata = {
@@ -8,9 +9,20 @@ export const metadata: Metadata = {
   description: "Khám phá hàng ngàn sản phẩm điện máy chính hãng tại Điện Máy Xanh.",
 };
 
-interface SearchParams { brand?: string; category?: string; sort?: string; filter?: string; }
+interface SearchParams {
+  brand?: string;
+  category?: string;
+  sort?: string;
+  filter?: string;
+}
 
-export default function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const sp = await searchParams;
+
   const sortOptions = [
     { label: "Phổ biến",        value: "popular"   },
     { label: "Giá thấp → cao", value: "price-asc"  },
@@ -20,18 +32,18 @@ export default function ProductsPage({ searchParams }: { searchParams: SearchPar
   ];
 
   let filtered = [...products];
-  if (searchParams.brand)    filtered = filtered.filter((p) => p.brand.toLowerCase() === searchParams.brand?.toLowerCase());
-  if (searchParams.category) filtered = filtered.filter((p) => p.categorySlug === searchParams.category);
-  if (searchParams.filter === "flash-sale") filtered = filtered.filter((p) => p.isFlashSale);
-  if (searchParams.sort === "price-asc")  filtered.sort((a, b) => a.price - b.price);
-  if (searchParams.sort === "price-desc") filtered.sort((a, b) => b.price - a.price);
-  if (searchParams.sort === "rating")     filtered.sort((a, b) => b.rating - a.rating);
+  if (sp.brand)    filtered = filtered.filter((p) => p.brand.toLowerCase() === sp.brand?.toLowerCase());
+  if (sp.category) filtered = filtered.filter((p) => p.categorySlug === sp.category);
+  if (sp.filter === "flash-sale") filtered = filtered.filter((p) => p.isFlashSale);
+  if (sp.sort === "price-asc")  filtered.sort((a, b) => a.price - b.price);
+  if (sp.sort === "price-desc") filtered.sort((a, b) => b.price - a.price);
+  if (sp.sort === "rating")     filtered.sort((a, b) => b.rating - a.rating);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       <nav className="text-sm text-gray-500 mb-4">
         <ol className="flex items-center gap-2">
-          <li><a href="/" className="hover:text-blue-600">Trang chủ</a></li>
+          <li><Link href="/" className="hover:text-blue-600">Trang chủ</Link></li>
           <li>/</li>
           <li className="text-gray-800 font-medium">Tất cả sản phẩm</li>
         </ol>
@@ -55,7 +67,7 @@ export default function ProductsPage({ searchParams }: { searchParams: SearchPar
               <div className="space-y-1.5">
                 {categories.map((cat) => (
                   <a key={cat.id} href={`?category=${cat.slug}`}
-                    className={`flex items-center justify-between text-sm px-2 py-1.5 rounded-lg transition-colors ${searchParams.category === cat.slug ? "bg-blue-50 text-blue-600 font-semibold" : "text-gray-600 hover:bg-gray-50"}`}>
+                    className={`flex items-center justify-between text-sm px-2 py-1.5 rounded-lg transition-colors ${sp.category === cat.slug ? "bg-blue-50 text-blue-600 font-semibold" : "text-gray-600 hover:bg-gray-50"}`}>
                     <span className="flex items-center gap-1.5"><span>{cat.icon}</span>{cat.name}</span>
                     <span className="text-xs text-gray-300">{cat.productCount}</span>
                   </a>
@@ -79,10 +91,10 @@ export default function ProductsPage({ searchParams }: { searchParams: SearchPar
               <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Khoảng giá</p>
               <div className="space-y-1.5">
                 {[
-                  { label: "Dưới 5 triệu",   value: "0-5m"    },
-                  { label: "5 – 10 triệu",   value: "5m-10m"  },
-                  { label: "10 – 20 triệu",  value: "10m-20m" },
-                  { label: "Trên 20 triệu",  value: "20m+"    },
+                  { label: "Dưới 5 triệu",  value: "0-5m"    },
+                  { label: "5 – 10 triệu",  value: "5m-10m"  },
+                  { label: "10 – 20 triệu", value: "10m-20m" },
+                  { label: "Trên 20 triệu", value: "20m+"    },
                 ].map((r) => (
                   <label key={r.value} className="flex items-center gap-2 text-sm cursor-pointer group">
                     <input type="radio" name="price" className="text-blue-600" />
@@ -101,7 +113,7 @@ export default function ProductsPage({ searchParams }: { searchParams: SearchPar
             <div className="flex gap-2 overflow-x-auto no-scrollbar flex-1">
               {sortOptions.map((opt) => (
                 <a key={opt.value} href={`?sort=${opt.value}`}
-                  className={`text-xs px-3.5 py-1.5 rounded-xl border whitespace-nowrap transition-colors flex-shrink-0 font-semibold ${(searchParams.sort === opt.value || (!searchParams.sort && opt.value === "popular")) ? "bg-blue-600 text-white border-blue-600 shadow-sm" : "border-gray-200 text-gray-600 hover:border-blue-300 hover:text-blue-600"}`}>
+                  className={`text-xs px-3.5 py-1.5 rounded-xl border whitespace-nowrap transition-colors flex-shrink-0 font-semibold ${(sp.sort === opt.value || (!sp.sort && opt.value === "popular")) ? "bg-blue-600 text-white border-blue-600 shadow-sm" : "border-gray-200 text-gray-600 hover:border-blue-300 hover:text-blue-600"}`}>
                   {opt.label}
                 </a>
               ))}
@@ -115,7 +127,7 @@ export default function ProductsPage({ searchParams }: { searchParams: SearchPar
             <div className="bg-white rounded-2xl shadow-sm p-16 text-center">
               <div className="text-5xl mb-4">🔍</div>
               <p className="text-gray-500 font-medium mb-4">Không tìm thấy sản phẩm phù hợp</p>
-              <a href="/san-pham" className="text-blue-600 hover:underline text-sm font-semibold">Xem tất cả sản phẩm</a>
+              <Link href="/san-pham" className="text-blue-600 hover:underline text-sm font-semibold">Xem tất cả sản phẩm</Link>
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">

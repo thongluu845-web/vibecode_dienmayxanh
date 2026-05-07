@@ -5,34 +5,36 @@ import { FiChevronRight } from "react-icons/fi";
 import { categories, getProductsByCategory } from "@/lib/data";
 import ProductCard from "@/components/product/ProductCard";
 
-interface Props { params: { category: string } }
+interface Props { params: Promise<{ category: string }> }
 
 export async function generateStaticParams() {
   return categories.map((c) => ({ category: c.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const cat = categories.find((c) => c.slug === params.category);
+  const { category } = await params;
+  const cat = categories.find((c) => c.slug === category);
   if (!cat) return { title: "Danh mục không tồn tại" };
   return {
     title: `${cat.name} – Chính hãng, giá tốt | Điện Máy Xanh`,
     description: `Mua ${cat.name} chính hãng tại Điện Máy Xanh. ${cat.description}. Giá rẻ nhất, giao hàng nhanh.`,
-    alternates: { canonical: `https://dienmayxanh.com/danh-muc/${params.category}` },
+    alternates: { canonical: `https://dienmayxanh.com/danh-muc/${category}` },
   };
 }
 
-export default function CategoryPage({ params }: Props) {
-  const cat = categories.find((c) => c.slug === params.category);
+export default async function CategoryPage({ params }: Props) {
+  const { category } = await params;
+  const cat = categories.find((c) => c.slug === category);
   if (!cat) notFound();
 
-  const catProducts = getProductsByCategory(params.category);
+  const catProducts = getProductsByCategory(category);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: cat.name,
     description: cat.description,
-    url: `https://dienmayxanh.com/danh-muc/${params.category}`,
+    url: `https://dienmayxanh.com/danh-muc/${category}`,
   };
 
   return (
@@ -55,7 +57,7 @@ export default function CategoryPage({ params }: Props) {
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl font-black mb-1">{cat.name}</h1>
-              <p className="text-blue-200 text-sm mb-1">{cat.description}</p>
+              <p className="text-blue-200 text-sm mb-2">{cat.description}</p>
               <span className="inline-block bg-yellow-400 text-yellow-900 text-xs font-black px-3 py-1 rounded-xl">
                 {cat.productCount} sản phẩm
               </span>
@@ -67,7 +69,7 @@ export default function CategoryPage({ params }: Props) {
         <div className="flex gap-2 mb-6 overflow-x-auto no-scrollbar pb-1">
           {categories.map((c) => (
             <Link key={c.id} href={`/danh-muc/${c.slug}`}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-colors flex-shrink-0 ${c.slug === params.category ? "bg-blue-600 text-white shadow-md" : "bg-white text-gray-600 hover:bg-blue-50 hover:text-blue-600 shadow-sm"}`}>
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-colors flex-shrink-0 ${c.slug === category ? "bg-blue-600 text-white shadow-md" : "bg-white text-gray-600 hover:bg-blue-50 hover:text-blue-600 shadow-sm"}`}>
               <span>{c.icon}</span><span>{c.name}</span>
             </Link>
           ))}

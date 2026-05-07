@@ -4,19 +4,20 @@ import { FiSearch } from "react-icons/fi";
 import { products } from "@/lib/data";
 import ProductCard from "@/components/product/ProductCard";
 
-interface Props { searchParams: { q?: string } }
+interface Props { searchParams: Promise<{ q?: string }> }
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const q = searchParams.q ?? "";
+  const { q } = await searchParams;
   return {
     title: q ? `Tìm kiếm "${q}" – Điện Máy Xanh` : "Tìm kiếm sản phẩm",
-    description: `Kết quả tìm kiếm cho "${q}" tại Điện Máy Xanh`,
+    description: `Kết quả tìm kiếm cho "${q ?? ""}" tại Điện Máy Xanh`,
     robots: { index: false, follow: true },
   };
 }
 
-export default function SearchPage({ searchParams }: Props) {
-  const q = searchParams.q?.toLowerCase() ?? "";
+export default async function SearchPage({ searchParams }: Props) {
+  const { q: rawQ } = await searchParams;
+  const q = rawQ?.toLowerCase() ?? "";
 
   const results = q
     ? products.filter((p) =>
@@ -40,7 +41,7 @@ export default function SearchPage({ searchParams }: Props) {
       {/* Search bar */}
       <form method="GET" action="/tim-kiem" className="mb-7 max-w-2xl">
         <div className="relative">
-          <input type="search" name="q" defaultValue={searchParams.q}
+          <input type="search" name="q" defaultValue={rawQ}
             placeholder="Nhập tên sản phẩm, thương hiệu..."
             className="w-full py-3.5 pl-5 pr-14 rounded-2xl border-2 border-gray-200 focus:border-blue-400 focus:outline-none text-sm shadow-sm" />
           <button type="submit"
@@ -60,9 +61,9 @@ export default function SearchPage({ searchParams }: Props) {
         <>
           <h1 className="text-lg font-bold text-gray-800 mb-5">
             {results.length > 0 ? (
-              <>Tìm thấy <span className="text-blue-600 font-black">{results.length}</span> kết quả cho &ldquo;{searchParams.q}&rdquo;</>
+              <>Tìm thấy <span className="text-blue-600 font-black">{results.length}</span> kết quả cho &ldquo;{rawQ}&rdquo;</>
             ) : (
-              <>Không tìm thấy kết quả cho &ldquo;{searchParams.q}&rdquo;</>
+              <>Không tìm thấy kết quả cho &ldquo;{rawQ}&rdquo;</>
             )}
           </h1>
 

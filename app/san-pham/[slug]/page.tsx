@@ -8,14 +8,15 @@ import { getProductBySlug, products, formatPrice } from "@/lib/data";
 import StarRating from "@/components/ui/StarRating";
 import ProductCard from "@/components/product/ProductCard";
 
-interface Props { params: { slug: string } }
+interface Props { params: Promise<{ slug: string }> }
 
 export async function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const product = getProductBySlug(params.slug);
+  const { slug } = await params;
+  const product = getProductBySlug(slug);
   if (!product) return { title: "Sản phẩm không tồn tại" };
   return {
     title: `${product.name} – Giá ${formatPrice(product.price)}`,
@@ -29,17 +30,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const policies = [
-  { icon: MdSecurity,       text: "Hàng chính hãng 100%",  color: "text-green-500"  },
-  { icon: MdLocalShipping,  text: "Giao hàng 2-4 giờ",     color: "text-blue-500"   },
-  { icon: MdLoop,           text: "Đổi trả 15 ngày",        color: "text-orange-500" },
-  { icon: MdVerified,       text: "Bảo hành 12 tháng",      color: "text-purple-500" },
+  { icon: MdSecurity,      text: "Hàng chính hãng 100%", color: "text-green-500"  },
+  { icon: MdLocalShipping, text: "Giao hàng 2-4 giờ",    color: "text-blue-500"   },
+  { icon: MdLoop,          text: "Đổi trả 15 ngày",       color: "text-orange-500" },
+  { icon: MdVerified,      text: "Bảo hành 12 tháng",     color: "text-purple-500" },
 ];
 
-export default function ProductDetailPage({ params }: Props) {
-  const product = getProductBySlug(params.slug);
+export default async function ProductDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const product = getProductBySlug(slug);
   if (!product) notFound();
 
-  const related = products.filter((p) => p.categorySlug === product.categorySlug && p.id !== product.id).slice(0, 5);
+  const related = products
+    .filter((p) => p.categorySlug === product.categorySlug && p.id !== product.id)
+    .slice(0, 5);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -55,7 +59,11 @@ export default function ProductDetailPage({ params }: Props) {
       availability: product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
       seller: { "@type": "Organization", name: "Điện Máy Xanh" },
     },
-    aggregateRating: { "@type": "AggregateRating", ratingValue: product.rating, reviewCount: product.reviewCount },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: product.rating,
+      reviewCount: product.reviewCount,
+    },
   };
 
   return (
@@ -75,11 +83,11 @@ export default function ProductDetailPage({ params }: Props) {
         {/* Main card */}
         <div className="bg-white rounded-2xl shadow-sm p-4 sm:p-6 mb-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
             {/* Images */}
             <div>
               <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-50 mb-3 shadow-inner">
-                <Image src={product.images[0]} alt={product.name} fill priority sizes="(max-width:1024px) 100vw,50vw" className="object-cover" />
+                <Image src={product.images[0]} alt={product.name} fill priority
+                  sizes="(max-width:1024px) 100vw,50vw" className="object-cover" />
                 {product.discount > 0 && (
                   <span className="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-rose-500 text-white font-bold text-sm px-3 py-1 rounded-xl shadow">
                     -{product.discount}%
@@ -97,9 +105,9 @@ export default function ProductDetailPage({ params }: Props) {
 
             {/* Info */}
             <div className="flex flex-col">
-              {/* Brand + badges */}
               <div className="flex items-center gap-2 mb-2 flex-wrap">
-                <Link href={`/san-pham?brand=${product.brand.toLowerCase()}`} className="flex items-center gap-1 text-sm font-bold text-blue-600 hover:underline">
+                <Link href={`/san-pham?brand=${product.brand.toLowerCase()}`}
+                  className="flex items-center gap-1 text-sm font-bold text-blue-600 hover:underline">
                   {product.brand} <MdVerified size={15} className="text-blue-400" />
                 </Link>
                 {product.isNew && <span className="bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded-lg">MỚI</span>}
@@ -108,17 +116,23 @@ export default function ProductDetailPage({ params }: Props) {
                 )}
               </div>
 
-              <h1 className="text-xl sm:text-2xl font-black text-gray-900 mb-3 leading-tight">{product.name}</h1>
+              <h1 className="text-xl sm:text-2xl font-black text-gray-900 mb-3 leading-tight">
+                {product.name}
+              </h1>
 
               <div className="flex items-center gap-3 mb-4 flex-wrap">
                 <StarRating rating={product.rating} reviewCount={product.reviewCount} size={16} />
                 <span className="text-gray-300">|</span>
-                <span className="text-sm text-gray-500">Đã bán <strong className="text-gray-700">{product.sold.toLocaleString("vi-VN")}</strong></span>
+                <span className="text-sm text-gray-500">
+                  Đã bán <strong className="text-gray-700">{product.sold.toLocaleString("vi-VN")}</strong>
+                </span>
               </div>
 
               {/* Price box */}
               <div className="bg-gradient-to-br from-red-50 to-orange-50 border border-red-100 rounded-2xl p-4 mb-5">
-                <p className="text-3xl sm:text-4xl font-black text-red-600 mb-1">{formatPrice(product.price)}</p>
+                <p className="text-3xl sm:text-4xl font-black text-red-600 mb-1">
+                  {formatPrice(product.price)}
+                </p>
                 {product.originalPrice > product.price && (
                   <div className="flex items-center gap-3 flex-wrap">
                     <p className="text-sm text-gray-400 line-through">{formatPrice(product.originalPrice)}</p>
@@ -196,7 +210,8 @@ export default function ProductDetailPage({ params }: Props) {
                 <span className="w-1 h-7 bg-blue-600 rounded-full inline-block" />
                 Sản phẩm liên quan
               </h2>
-              <Link href={`/danh-muc/${product.categorySlug}`} className="text-sm text-blue-600 hover:underline flex items-center gap-1 font-semibold">
+              <Link href={`/danh-muc/${product.categorySlug}`}
+                className="text-sm text-blue-600 hover:underline flex items-center gap-1 font-semibold">
                 Xem thêm <FiChevronRight size={14} />
               </Link>
             </div>
