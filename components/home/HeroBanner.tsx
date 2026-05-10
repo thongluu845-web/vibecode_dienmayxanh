@@ -4,17 +4,26 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { HiArrowRight } from "react-icons/hi";
 import { Banner } from "@/types";
 
-interface HeroBannerProps {
-  banners: Banner[];
-}
+interface HeroBannerProps { banners: Banner[] }
 
 export default function HeroBanner({ banners }: HeroBannerProps) {
-  const [cur, setCur] = useState(0);
+  const [cur, setCur]           = useState(0);
+  const [animKey, setAnimKey]   = useState(0); // re-trigger text animation
 
-  const next = useCallback(() => setCur((p) => (p + 1) % banners.length), [banners.length]);
-  const prev = () => setCur((p) => (p - 1 + banners.length) % banners.length);
+  const next = useCallback(() => {
+    setCur((p) => (p + 1) % banners.length);
+    setAnimKey((k) => k + 1);
+  }, [banners.length]);
+
+  const prev = () => {
+    setCur((p) => (p - 1 + banners.length) % banners.length);
+    setAnimKey((k) => k + 1);
+  };
+
+  const goTo = (i: number) => { setCur(i); setAnimKey((k) => k + 1); };
 
   useEffect(() => {
     const id = setInterval(next, 4500);
@@ -24,7 +33,8 @@ export default function HeroBanner({ banners }: HeroBannerProps) {
   if (!banners.length) return null;
 
   return (
-    <div className="relative w-full rounded-2xl overflow-hidden shadow-lg" style={{ aspectRatio: "16/6" }}>
+    <div className="relative w-full rounded-2xl overflow-hidden shadow-xl" style={{ aspectRatio: "16/6" }}>
+      {/* Slides */}
       {banners.map((banner, idx) => (
         <div
           key={banner.id}
@@ -37,52 +47,81 @@ export default function HeroBanner({ banners }: HeroBannerProps) {
               alt={banner.title}
               fill
               priority={idx === 0}
-              sizes="(max-width: 768px) 100vw, 1200px"
-              className="object-cover"
+              sizes="(max-width:768px) 100vw,1200px"
+              className="object-cover scale-105 group-hover:scale-100 transition-transform duration-[6000ms] ease-out"
+              style={{ transform: idx === cur ? "scale(1.02)" : "scale(1.08)", transition: "transform 6s ease-out" }}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/25 to-transparent">
-              <div className="h-full flex items-center px-8 sm:px-12">
-                <div className="max-w-sm text-white">
-                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black leading-tight mb-2 drop-shadow">
-                    {banner.title}
-                  </h2>
-                  <p className="text-sm sm:text-base text-gray-200 mb-5">{banner.subtitle}</p>
-                  <span className="inline-flex items-center gap-2 bg-[#ff6600] hover:bg-[#e55a00] text-white font-bold px-6 py-2.5 rounded-xl text-sm transition-colors shadow-lg">
-                    Mua ngay <FiChevronRight size={16} />
-                  </span>
-                </div>
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
+
+            {/* Text content */}
+            <div className="absolute inset-0 flex items-center px-8 sm:px-12">
+              <div className="max-w-sm text-white" key={`${animKey}-${idx}`}>
+                <p
+                  className="text-xs sm:text-sm font-bold text-yellow-400 uppercase tracking-widest mb-2"
+                  style={{ animation: idx === cur ? "fadeInLeft 0.5s 0.1s both" : "none" }}
+                >
+                  ⚡ Siêu ưu đãi hôm nay
+                </p>
+                <h2
+                  className="text-2xl sm:text-3xl lg:text-4xl font-black leading-tight mb-3 drop-shadow-lg"
+                  style={{
+                    fontFamily: "'Rubik', sans-serif",
+                    animation: idx === cur ? "fadeInLeft 0.55s 0.2s both" : "none",
+                  }}
+                >
+                  {banner.title}
+                </h2>
+                <p
+                  className="text-sm sm:text-base text-gray-200 mb-5"
+                  style={{ animation: idx === cur ? "fadeInLeft 0.55s 0.35s both" : "none" }}
+                >
+                  {banner.subtitle}
+                </p>
+                <span
+                  className="inline-flex items-center gap-2 bg-[#ff6600] hover:bg-[#e55a00] text-white
+                    font-bold px-6 py-3 rounded-2xl text-sm transition-all duration-200
+                    shadow-lg shadow-orange-500/40 hover:shadow-xl hover:shadow-orange-500/50
+                    hover:-translate-y-0.5 active:scale-95 shine-hover"
+                  style={{ animation: idx === cur ? "fadeInLeft 0.55s 0.5s both" : "none" }}
+                >
+                  Mua ngay <HiArrowRight size={16} />
+                </span>
               </div>
             </div>
           </Link>
         </div>
       ))}
 
-      {/* Arrows */}
-      <button
-        onClick={prev}
-        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 bg-white/80 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110"
-        aria-label="Slide trước"
-      >
-        <FiChevronLeft size={19} className="text-gray-700" />
-      </button>
-      <button
-        onClick={next}
-        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 bg-white/80 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110"
-        aria-label="Slide tiếp"
-      >
-        <FiChevronRight size={19} className="text-gray-700" />
-      </button>
+      {/* Arrow buttons */}
+      {[
+        { fn: prev, dir: "left",  Icon: FiChevronLeft,  pos: "left-3"  },
+        { fn: next, dir: "right", Icon: FiChevronRight, pos: "right-3" },
+      ].map(({ fn, dir, Icon, pos }) => (
+        <button key={dir} onClick={fn}
+          className={`absolute ${pos} top-1/2 -translate-y-1/2 z-20
+            w-9 h-9 bg-white/80 hover:bg-white rounded-full
+            flex items-center justify-center shadow-lg
+            transition-all duration-200 hover:scale-115 active:scale-90`}
+          aria-label={dir === "left" ? "Slide trước" : "Slide tiếp"}
+        >
+          <Icon size={19} className="text-gray-700" />
+        </button>
+      ))}
 
-      {/* Dots */}
+      {/* Dot indicators */}
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex gap-1.5">
         {banners.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => setCur(idx)}
-            className={`h-2 rounded-full transition-all duration-300 ${idx === cur ? "w-6 bg-white" : "w-2 bg-white/50 hover:bg-white/70"}`}
+          <button key={idx} onClick={() => goTo(idx)}
+            className={`h-2 rounded-full transition-all duration-300 ${idx === cur ? "w-7 bg-white shadow" : "w-2 bg-white/50 hover:bg-white/70"}`}
             aria-label={`Slide ${idx + 1}`}
           />
         ))}
+      </div>
+
+      {/* Slide counter */}
+      <div className="absolute bottom-3 right-4 z-20 text-xs text-white/70 font-medium">
+        {cur + 1} / {banners.length}
       </div>
     </div>
   );
