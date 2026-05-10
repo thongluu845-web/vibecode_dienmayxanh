@@ -2,25 +2,17 @@ import type { Metadata } from "next";
 import { products, categories } from "@/lib/data";
 import ProductCard from "@/components/product/ProductCard";
 import Link from "next/link";
-import { Sliders, CaretDown } from "@phosphor-icons/react/dist/ssr";
+import TuneOutlined           from "@mui/icons-material/TuneOutlined";
+import ExpandMoreOutlined     from "@mui/icons-material/ExpandMoreOutlined";
 
 export const metadata: Metadata = {
   title: "Tất cả sản phẩm điện máy – Giá tốt nhất",
   description: "Khám phá hàng ngàn sản phẩm điện máy chính hãng tại Điện Máy Xanh.",
 };
 
-interface SearchParams {
-  brand?: string;
-  category?: string;
-  sort?: string;
-  filter?: string;
-}
+interface SearchParams { brand?: string; category?: string; sort?: string; filter?: string; }
 
-export default async function ProductsPage({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
+export default async function ProductsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const sp = await searchParams;
 
   const sortOptions = [
@@ -48,20 +40,16 @@ export default async function ProductsPage({
           <li className="text-gray-800 font-medium">Tất cả sản phẩm</li>
         </ol>
       </nav>
-
       <h1 className="text-2xl font-black text-gray-900 mb-6">
-        Tất cả sản phẩm
-        <span className="text-base font-normal text-gray-400 ml-2">({filtered.length})</span>
+        Tất cả sản phẩm <span className="text-base font-normal text-gray-400 ml-2">({filtered.length})</span>
       </h1>
 
       <div className="flex gap-5">
-        {/* Sidebar */}
         <aside className="hidden lg:block w-56 flex-shrink-0 space-y-4">
           <div className="bg-white rounded-2xl shadow-sm p-4 sticky top-24">
             <h3 className="font-black text-gray-800 mb-4 flex items-center gap-2 text-sm">
-              <Sliders size={16} weight="duotone" className="text-blue-600" /> Bộ lọc
+              <TuneOutlined style={{ fontSize: 16 }} className="text-blue-600" /> Bộ lọc
             </h3>
-
             <div className="mb-5">
               <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Danh mục</p>
               <div className="space-y-1.5">
@@ -74,7 +62,6 @@ export default async function ProductsPage({
                 ))}
               </div>
             </div>
-
             <div className="mb-5">
               <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Thương hiệu</p>
               <div className="space-y-1.5">
@@ -86,16 +73,10 @@ export default async function ProductsPage({
                 ))}
               </div>
             </div>
-
             <div>
               <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Khoảng giá</p>
               <div className="space-y-1.5">
-                {[
-                  { label: "Dưới 5 triệu",  value: "0-5m"    },
-                  { label: "5 – 10 triệu",  value: "5m-10m"  },
-                  { label: "10 – 20 triệu", value: "10m-20m" },
-                  { label: "Trên 20 triệu", value: "20m+"    },
-                ].map((r) => (
+                {[{ label: "Dưới 5 triệu", value: "0-5m" }, { label: "5–10 triệu", value: "5m-10m" }, { label: "10–20 triệu", value: "10m-20m" }, { label: "Trên 20 triệu", value: "20m+" }].map((r) => (
                   <label key={r.value} className="flex items-center gap-2 text-sm cursor-pointer group">
                     <input type="radio" name="price" className="text-blue-600" />
                     <span className="text-gray-600 group-hover:text-blue-600 transition-colors">{r.label}</span>
@@ -107,7 +88,6 @@ export default async function ProductsPage({
         </aside>
 
         <div className="flex-1 min-w-0">
-          {/* Sort bar */}
           <div className="flex items-center gap-3 mb-4 bg-white rounded-2xl shadow-sm px-4 py-3 flex-wrap">
             <span className="text-sm text-gray-500 font-medium flex-shrink-0">Sắp xếp:</span>
             <div className="flex gap-2 overflow-x-auto no-scrollbar flex-1">
@@ -119,8 +99,8 @@ export default async function ProductsPage({
               ))}
             </div>
             <button className="lg:hidden flex items-center gap-1.5 text-sm text-gray-600 border border-gray-200 px-3 py-1.5 rounded-xl flex-shrink-0 font-medium">
-              <Sliders size={14} weight="duotone" /> Lọc
-              <CaretDown size={13} weight="bold" />
+              <TuneOutlined style={{ fontSize: 14 }} /> Lọc
+              <ExpandMoreOutlined style={{ fontSize: 13 }} />
             </button>
           </div>
 

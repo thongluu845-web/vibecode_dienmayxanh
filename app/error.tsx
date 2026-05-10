@@ -2,7 +2,8 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { ArrowClockwise, House } from "@phosphor-icons/react";
+import RefreshOutlined from "@mui/icons-material/RefreshOutlined";
+import HomeOutlined    from "@mui/icons-material/HomeOutlined";
 
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => { console.error(error); }, [error]);
@@ -15,11 +16,11 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
       <div className="flex gap-3 justify-center">
         <button onClick={reset}
           className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-2xl transition-colors icon-spin">
-          <ArrowClockwise size={17} weight="bold" /> Thử lại
+          <RefreshOutlined style={{ fontSize: 17 }} /> Thử lại
         </button>
         <Link href="/"
           className="flex items-center gap-2 border-2 border-gray-200 hover:border-blue-300 text-gray-600 font-bold px-6 py-3 rounded-2xl transition-colors">
-          <House size={17} weight="duotone" /> Trang chủ
+          <HomeOutlined style={{ fontSize: 17 }} /> Trang chủ
         </Link>
       </div>
     </div>

@@ -1,13 +1,12 @@
 import Link from "next/link";
-import {
-  Phone, Envelope, MapPin,
-  FacebookLogo, YoutubeLogo, TiktokLogo,
-  Truck, ShieldCheck, ArrowsClockwise, CreditCard,
-} from "@phosphor-icons/react/dist/ssr";
-import type { ComponentType } from "react";
-import type { IconProps } from "@phosphor-icons/react";
-
-type PhosphorIcon = ComponentType<IconProps>;
+import LocalPhoneOutlined       from "@mui/icons-material/LocalPhoneOutlined";
+import EmailOutlined            from "@mui/icons-material/EmailOutlined";
+import LocationOnOutlined       from "@mui/icons-material/LocationOnOutlined";
+import LocalShippingTwoTone     from "@mui/icons-material/LocalShippingTwoTone";
+import SecurityTwoTone          from "@mui/icons-material/SecurityTwoTone";
+import AutorenewTwoTone         from "@mui/icons-material/AutorenewTwoTone";
+import CreditCardTwoTone        from "@mui/icons-material/CreditCardTwoTone";
+import { FaFacebookF, FaYoutube, FaTiktok } from "react-icons/fa";
 
 const footerCategories = [
   { name: "Điện thoại",    href: "/danh-muc/dien-thoai" },
@@ -19,7 +18,6 @@ const footerCategories = [
   { name: "Máy tính bảng", href: "/danh-muc/may-tinh-bang" },
   { name: "Âm thanh",      href: "/danh-muc/am-thanh" },
 ];
-
 const policies = [
   { name: "Chính sách đổi trả",  href: "/chinh-sach-doi-tra" },
   { name: "Chính sách bảo hành", href: "/chinh-sach-bao-hanh" },
@@ -27,7 +25,6 @@ const policies = [
   { name: "Chính sách bảo mật",  href: "/chinh-sach-bao-mat" },
   { name: "Điều khoản sử dụng",  href: "/dieu-khoan-su-dung" },
 ];
-
 const supports = [
   { name: "Hướng dẫn mua hàng", href: "/huong-dan-mua-hang" },
   { name: "Tra cứu đơn hàng",   href: "/tra-cuu-don-hang" },
@@ -36,24 +33,25 @@ const supports = [
   { name: "Trả góp 0%",         href: "/tra-gop" },
 ];
 
-const benefits: { icon: PhosphorIcon; title: string; desc: string; color: string }[] = [
-  { icon: Truck,            title: "Giao hàng nhanh",  desc: "Nội thành 2-4 giờ",  color: "text-blue-400"   },
-  { icon: ShieldCheck,      title: "Hàng chính hãng",  desc: "100% chính hãng",     color: "text-green-400"  },
-  { icon: ArrowsClockwise,  title: "Đổi trả 15 ngày",  desc: "Nếu lỗi sản phẩm",   color: "text-orange-400" },
-  { icon: CreditCard,       title: "Trả góp 0%",        desc: "Duyệt nhanh 5 phút", color: "text-yellow-400" },
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const benefits: { Icon: any; title: string; desc: string; color: string }[] = [
+  { Icon: LocalShippingTwoTone, title: "Giao hàng nhanh",  desc: "Nội thành 2-4 giờ",  color: "text-blue-400"   },
+  { Icon: SecurityTwoTone,      title: "Hàng chính hãng",  desc: "100% chính hãng",     color: "text-green-400"  },
+  { Icon: AutorenewTwoTone,     title: "Đổi trả 15 ngày",  desc: "Nếu lỗi sản phẩm",   color: "text-orange-400" },
+  { Icon: CreditCardTwoTone,    title: "Trả góp 0%",        desc: "Duyệt nhanh 5 phút", color: "text-yellow-400" },
 ];
 
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-400 mt-8">
-      {/* Benefits bar */}
+      {/* Benefits */}
       <div className="bg-[#0047a3] border-t border-blue-700">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {benefits.map(({ icon: Icon, title, desc, color }) => (
+            {benefits.map(({ Icon, title, desc, color }) => (
               <div key={title} className="flex items-center gap-3 group">
                 <div className="w-10 h-10 bg-white/10 group-hover:bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 icon-pop">
-                  <Icon size={22} weight="duotone" className={color} />
+                  <Icon style={{ fontSize: 22 }} className={color} />
                 </div>
                 <div>
                   <p className="text-white font-bold text-sm leading-tight">{title}</p>
@@ -65,11 +63,10 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Main footer */}
+      {/* Main */}
       <div className="max-w-7xl mx-auto px-4 py-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-
-          {/* Brand col */}
+          {/* Brand */}
           <div>
             <div className="bg-white rounded-xl px-3 py-2 inline-flex flex-col items-center mb-4 shadow">
               <div className="flex gap-0.5">
@@ -83,34 +80,28 @@ export default function Footer() {
             </p>
             <div className="space-y-2.5 text-sm">
               <a href="tel:18006789" className="flex items-center gap-2 hover:text-white transition-colors">
-                <Phone size={14} weight="duotone" className="text-blue-400 flex-shrink-0" />
+                <LocalPhoneOutlined style={{ fontSize: 14 }} className="text-blue-400 flex-shrink-0" />
                 <span>1800 6789 <span className="text-gray-500">(miễn phí)</span></span>
               </a>
               <a href="mailto:cskh@dienmayxanh.com" className="flex items-center gap-2 hover:text-white transition-colors">
-                <Envelope size={14} weight="duotone" className="text-blue-400 flex-shrink-0" />
+                <EmailOutlined style={{ fontSize: 14 }} className="text-blue-400 flex-shrink-0" />
                 <span>cskh@dienmayxanh.com</span>
               </a>
               <div className="flex items-start gap-2">
-                <MapPin size={14} weight="duotone" className="text-blue-400 flex-shrink-0 mt-0.5" />
+                <LocationOnOutlined style={{ fontSize: 14 }} className="text-blue-400 flex-shrink-0 mt-0.5" />
                 <span>222 Điện Biên Phủ, P.7, Q.3, TP.HCM</span>
               </div>
             </div>
             {/* Social */}
             <div className="flex gap-2 mt-5">
               {[
-                { href: "#", Icon: FacebookLogo, bg: "hover:bg-[#1877f2]", label: "Facebook" },
-                { href: "#", Icon: YoutubeLogo,  bg: "hover:bg-[#ff0000]", label: "YouTube"  },
-                { href: "#", Icon: TiktokLogo,   bg: "hover:bg-gray-600",  label: "TikTok"   },
+                { href: "#", Icon: FaFacebookF, bg: "bg-[#1877f2]", label: "Facebook" },
+                { href: "#", Icon: FaYoutube,   bg: "bg-[#ff0000]", label: "YouTube"  },
+                { href: "#", Icon: FaTiktok,    bg: "bg-gray-700",  label: "TikTok"   },
               ].map(({ href, Icon, bg, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className={`w-9 h-9 bg-gray-700 ${bg} rounded-xl flex items-center justify-center text-white transition-all duration-200 hover:scale-110 active:scale-90`}
-                >
-                  <Icon size={16} weight="fill" />
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
+                  className={`w-9 h-9 ${bg} rounded-xl flex items-center justify-center text-white transition-all duration-200 hover:scale-110 active:scale-90 hover:opacity-90`}>
+                  <Icon size={16} />
                 </a>
               ))}
             </div>
@@ -121,11 +112,7 @@ export default function Footer() {
             <h3 className="text-white font-bold mb-4 text-sm uppercase tracking-wider">Danh mục</h3>
             <ul className="space-y-2">
               {footerCategories.map((item) => (
-                <li key={item.name}>
-                  <Link href={item.href} className="text-sm hover:text-white hover:pl-1 transition-all">
-                    {item.name}
-                  </Link>
-                </li>
+                <li key={item.name}><Link href={item.href} className="text-sm hover:text-white hover:pl-1 transition-all">{item.name}</Link></li>
               ))}
             </ul>
           </div>
@@ -135,40 +122,24 @@ export default function Footer() {
             <h3 className="text-white font-bold mb-4 text-sm uppercase tracking-wider">Chính sách</h3>
             <ul className="space-y-2">
               {policies.map((item) => (
-                <li key={item.name}>
-                  <Link href={item.href} className="text-sm hover:text-white hover:pl-1 transition-all">
-                    {item.name}
-                  </Link>
-                </li>
+                <li key={item.name}><Link href={item.href} className="text-sm hover:text-white hover:pl-1 transition-all">{item.name}</Link></li>
               ))}
             </ul>
           </div>
 
-          {/* Support + App */}
+          {/* Support */}
           <div>
             <h3 className="text-white font-bold mb-4 text-sm uppercase tracking-wider">Hỗ trợ</h3>
             <ul className="space-y-2 mb-6">
               {supports.map((item) => (
-                <li key={item.name}>
-                  <Link href={item.href} className="text-sm hover:text-white hover:pl-1 transition-all">
-                    {item.name}
-                  </Link>
-                </li>
+                <li key={item.name}><Link href={item.href} className="text-sm hover:text-white hover:pl-1 transition-all">{item.name}</Link></li>
               ))}
             </ul>
             <p className="text-white text-sm font-bold mb-3">Tải ứng dụng</p>
             <div className="flex flex-col gap-2">
-              {[
-                { label: "App Store", emoji: "🍎" },
-                { label: "Google Play", emoji: "🤖" },
-              ].map(({ label, emoji }) => (
-                <a
-                  key={label}
-                  href="#"
-                  className="flex items-center gap-2.5 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3.5 py-2.5 rounded-xl transition-colors"
-                >
-                  <span className="text-lg">{emoji}</span>
-                  <span className="font-medium">{label}</span>
+              {[{ label: "App Store", emoji: "🍎" }, { label: "Google Play", emoji: "🤖" }].map(({ label, emoji }) => (
+                <a key={label} href="#" className="flex items-center gap-2.5 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3.5 py-2.5 rounded-xl transition-colors">
+                  <span className="text-lg">{emoji}</span><span className="font-medium">{label}</span>
                 </a>
               ))}
             </div>
@@ -176,7 +147,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom */}
       <div className="border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-600">
           <p>© {new Date().getFullYear()} Điện Máy Xanh – Công ty CP Thế Giới Di Động. GPDKKD: 0303217354</p>
