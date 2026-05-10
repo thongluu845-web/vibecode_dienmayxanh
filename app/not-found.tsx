@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FiHome, FiSearch, FiChevronRight } from "react-icons/fi";
+import { House, MagnifyingGlass, CaretRight } from "@phosphor-icons/react/dist/ssr";
 
 export const metadata: Metadata = {
   title: "404 – Trang không tìm thấy | Điện Máy Xanh",
@@ -26,8 +26,8 @@ export default function NotFound() {
         <div className="relative">
           <input type="search" name="q" placeholder="Tìm kiếm sản phẩm..."
             className="w-full py-3 pl-4 pr-12 rounded-2xl border-2 border-gray-200 focus:border-blue-400 focus:outline-none text-sm" />
-          <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white p-2 rounded-xl">
-            <FiSearch size={16} />
+          <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white p-2 rounded-xl flex items-center justify-center">
+            <MagnifyingGlass size={16} weight="bold" />
           </button>
         </div>
       </form>
@@ -45,11 +45,12 @@ export default function NotFound() {
       <div className="flex gap-3 justify-center flex-wrap">
         <Link href="/"
           className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-2xl transition-colors">
-          <FiHome size={17} /> Về trang chủ
+          <House size={17} weight="duotone" /> Về trang chủ
         </Link>
         <Link href="/san-pham"
-          className="flex items-center gap-2 border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-bold px-6 py-3 rounded-2xl transition-colors">
-          Xem sản phẩm <FiChevronRight size={17} />
+          className="flex items-center gap-2 border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-bold px-6 py-3 rounded-2xl transition-colors group">
+          Xem sản phẩm
+          <CaretRight size={17} weight="bold" className="group-hover:translate-x-0.5 transition-transform" />
         </Link>
       </div>
     </div>

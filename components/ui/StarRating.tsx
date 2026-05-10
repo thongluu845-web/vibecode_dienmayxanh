@@ -1,4 +1,4 @@
-import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { Star } from "@phosphor-icons/react/dist/ssr";
 
 interface StarRatingProps {
   rating: number;
@@ -12,8 +12,8 @@ export default function StarRating({ rating, reviewCount, size = 15 }: StarRatin
       <div className="flex items-center gap-0.5">
         {[1, 2, 3, 4, 5].map((s) =>
           s <= Math.round(rating)
-            ? <AiFillStar  key={s} size={size} className="text-yellow-400" />
-            : <AiOutlineStar key={s} size={size} className="text-gray-300" />
+            ? <Star key={s} size={size} weight="fill" className="text-yellow-400" />
+            : <Star key={s} size={size} weight="regular" className="text-gray-300" />
         )}
       </div>
       <span className="text-xs text-gray-500">

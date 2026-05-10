@@ -2,9 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { FiChevronRight } from "react-icons/fi";
-import { HiLightningBolt } from "react-icons/hi";
-import { MdLocalFireDepartment } from "react-icons/md";
+import { CaretRight, Lightning, Fire } from "@phosphor-icons/react";
 import { Product } from "@/types";
 import ProductCard from "@/components/product/ProductCard";
 
@@ -57,12 +55,17 @@ export default function FlashSale({ products }: FlashSaleProps) {
           <div className="flex items-center gap-3 flex-wrap">
             {/* Title with fire icon */}
             <div className="flex items-center gap-2">
-              <MdLocalFireDepartment
-                size={26}
+              <Fire
+                size={28}
+                weight="duotone"
                 className="text-yellow-300"
                 style={{ animation: "pulseRing 1s ease-in-out infinite, spinSlow 3s linear infinite" }}
               />
-              <HiLightningBolt size={20} className="text-yellow-300 float-anim" />
+              <Lightning
+                size={22}
+                weight="fill"
+                className="text-yellow-300 float-anim"
+              />
               <h2 className="text-xl sm:text-2xl font-black text-white tracking-widest"
                 style={{ fontFamily: "'Rubik', sans-serif", textShadow: "0 2px 8px rgba(0,0,0,.3)" }}>
                 FLASH SALE
@@ -81,8 +84,9 @@ export default function FlashSale({ products }: FlashSaleProps) {
 
           <Link href="/san-pham?filter=flash-sale"
             className="flex items-center gap-1.5 bg-white text-red-600 font-bold text-sm px-4 py-2.5 rounded-xl
-              hover:bg-red-50 transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-95 shine-hover">
-            Xem tất cả <FiChevronRight size={15} />
+              hover:bg-red-50 transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-95 shine-hover group">
+            Xem tất cả
+            <CaretRight size={15} weight="bold" className="group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
 

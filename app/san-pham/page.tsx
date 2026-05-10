@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { products, categories } from "@/lib/data";
 import ProductCard from "@/components/product/ProductCard";
 import Link from "next/link";
-import { FiSliders, FiChevronDown } from "react-icons/fi";
+import { Sliders, CaretDown } from "@phosphor-icons/react/dist/ssr";
 
 export const metadata: Metadata = {
   title: "Tất cả sản phẩm điện máy – Giá tốt nhất",
@@ -59,7 +59,7 @@ export default async function ProductsPage({
         <aside className="hidden lg:block w-56 flex-shrink-0 space-y-4">
           <div className="bg-white rounded-2xl shadow-sm p-4 sticky top-24">
             <h3 className="font-black text-gray-800 mb-4 flex items-center gap-2 text-sm">
-              <FiSliders size={16} className="text-blue-600" /> Bộ lọc
+              <Sliders size={16} weight="duotone" className="text-blue-600" /> Bộ lọc
             </h3>
 
             <div className="mb-5">
@@ -119,7 +119,8 @@ export default async function ProductsPage({
               ))}
             </div>
             <button className="lg:hidden flex items-center gap-1.5 text-sm text-gray-600 border border-gray-200 px-3 py-1.5 rounded-xl flex-shrink-0 font-medium">
-              <FiSliders size={14} /> Lọc <FiChevronDown size={13} />
+              <Sliders size={14} weight="duotone" /> Lọc
+              <CaretDown size={13} weight="bold" />
             </button>
           </div>
 

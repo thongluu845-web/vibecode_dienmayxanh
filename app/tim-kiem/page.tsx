@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FiSearch } from "react-icons/fi";
+import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import { products } from "@/lib/data";
 import ProductCard from "@/components/product/ProductCard";
 
@@ -45,15 +45,15 @@ export default async function SearchPage({ searchParams }: Props) {
             placeholder="Nhập tên sản phẩm, thương hiệu..."
             className="w-full py-3.5 pl-5 pr-14 rounded-2xl border-2 border-gray-200 focus:border-blue-400 focus:outline-none text-sm shadow-sm" />
           <button type="submit"
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white p-2.5 rounded-xl transition-colors">
-            <FiSearch size={19} />
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white p-2.5 rounded-xl transition-colors flex items-center justify-center icon-pop">
+            <MagnifyingGlass size={19} weight="bold" />
           </button>
         </div>
       </form>
 
       {!q ? (
         <div className="bg-white rounded-2xl shadow-sm p-16 text-center">
-          <FiSearch size={48} className="text-gray-200 mx-auto mb-4" />
+          <MagnifyingGlass size={48} weight="duotone" className="text-gray-200 mx-auto mb-4" />
           <p className="text-gray-500 font-bold text-lg mb-1">Tìm kiếm sản phẩm</p>
           <p className="text-gray-400 text-sm">Nhập tên sản phẩm, thương hiệu hoặc danh mục</p>
         </div>

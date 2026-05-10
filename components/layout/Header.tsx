@@ -3,11 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
-  FiSearch, FiShoppingCart, FiPhone, FiMapPin,
-  FiUser, FiMenu, FiX, FiChevronDown, FiChevronRight,
-  FiHeart, FiBell,
-} from "react-icons/fi";
-import { HiOutlineSparkles } from "react-icons/hi2";
+  MagnifyingGlass, ShoppingCart, Phone, MapPin,
+  User, List, X, CaretDown, CaretRight,
+  Heart, Bell, Sparkle,
+} from "@phosphor-icons/react";
 import { categories } from "@/lib/data";
 
 export default function Header() {
@@ -38,24 +37,24 @@ export default function Header() {
       <div className="bg-[#0a3d8f] text-white text-xs overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 h-8 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <a href="tel:18006789" className="flex items-center gap-1.5 hover:text-yellow-300 transition-colors duration-200">
-              <FiPhone size={12} />
+            <a href="tel:18006789" className="flex items-center gap-1.5 hover:text-yellow-300 transition-colors duration-200 icon-bounce">
+              <Phone size={12} weight="duotone" />
               <span className="font-semibold">1800 6789</span>
               <span className="text-blue-300 hidden sm:inline">(Miễn phí)</span>
             </a>
             <span className="text-blue-400 hidden sm:block">|</span>
             <Link href="/he-thong-cua-hang" className="hidden sm:flex items-center gap-1.5 hover:text-yellow-300 transition-colors duration-200">
-              <FiMapPin size={12} />
+              <MapPin size={12} weight="duotone" />
               <span>2.000+ Cửa hàng toàn quốc</span>
             </Link>
           </div>
           <div className="flex items-center gap-3">
             <Link href="/tra-gop" className="hidden sm:flex items-center gap-1 hover:text-yellow-300 transition-colors duration-200">
-              <HiOutlineSparkles size={12} />Trả góp 0%
+              <Sparkle size={12} weight="duotone" />Trả góp 0%
             </Link>
             <span className="text-blue-400 hidden sm:block">|</span>
             <Link href="/tai-khoan" className="flex items-center gap-1.5 hover:text-yellow-300 transition-colors duration-200">
-              <FiUser size={12} /><span>Đăng nhập</span>
+              <User size={12} weight="duotone" /><span>Đăng nhập</span>
             </Link>
           </div>
         </div>
@@ -88,9 +87,9 @@ export default function Header() {
                 onClick={() => setIsCategoryOpen(!isCategoryOpen)}
                 className="flex items-center gap-2 bg-white/15 hover:bg-white/25 text-white px-4 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 border border-white/20 active:scale-95"
               >
-                <FiMenu size={17} />
+                <List size={17} weight="bold" />
                 <span>Danh mục</span>
-                <FiChevronDown size={15} className={`transition-transform duration-200 ${isCategoryOpen ? "rotate-180" : ""}`} />
+                <CaretDown size={15} weight="bold" className={`transition-transform duration-200 ${isCategoryOpen ? "rotate-180" : ""}`} />
               </button>
 
               {isCategoryOpen && (
@@ -113,7 +112,7 @@ export default function Header() {
                             <p className="font-semibold text-sm text-gray-800 group-hover:text-blue-600 transition-colors">{cat.name}</p>
                             <p className="text-xs text-gray-400">{cat.productCount} sản phẩm</p>
                           </div>
-                          <FiChevronRight size={14} className="text-gray-300 group-hover:text-blue-400 transition-colors group-hover:translate-x-0.5 duration-200" />
+                          <CaretRight size={14} weight="bold" className="text-gray-300 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all duration-200" />
                         </Link>
                       ))}
                     </div>
@@ -133,27 +132,27 @@ export default function Header() {
               />
               <button
                 type="submit"
-                className="absolute right-1 top-1 bottom-1 px-3.5 bg-[#ff6600] hover:bg-[#e55a00] text-white rounded-lg transition-all duration-200 flex items-center justify-center hover:scale-105 active:scale-95 shine-hover"
+                className="absolute right-1 top-1 bottom-1 px-3.5 bg-[#ff6600] hover:bg-[#e55a00] text-white rounded-lg transition-all duration-200 flex items-center justify-center hover:scale-105 active:scale-95 shine-hover icon-pop"
               >
-                <FiSearch size={17} />
+                <MagnifyingGlass size={17} weight="bold" />
               </button>
             </form>
 
             {/* Action icons */}
             <div className="flex items-center gap-1 flex-shrink-0">
-              {[
-                { href: "/yeu-thich",   icon: FiHeart,        label: "Yêu thích",  show: "hidden sm:flex" },
-                { href: "/thong-bao",   icon: FiBell,         label: "Thông báo",  show: "hidden sm:flex" },
-              ].map(({ href, icon: Icon, label, show }) => (
-                <Link key={href} href={href} aria-label={label}
-                  className={`${show} w-10 h-10 items-center justify-center text-white hover:bg-white/20 rounded-xl transition-all duration-200 hover:scale-110 active:scale-90`}>
-                  <Icon size={21} />
-                </Link>
-              ))}
+              <Link href="/yeu-thich" aria-label="Yêu thích"
+                className="hidden sm:flex w-10 h-10 items-center justify-center text-white hover:bg-white/20 rounded-xl transition-all duration-200 hover:scale-110 active:scale-90 icon-pop">
+                <Heart size={21} weight="duotone" />
+              </Link>
+
+              <Link href="/thong-bao" aria-label="Thông báo"
+                className="hidden sm:flex w-10 h-10 items-center justify-center text-white hover:bg-white/20 rounded-xl transition-all duration-200 hover:scale-110 active:scale-90 icon-wiggle">
+                <Bell size={21} weight="duotone" />
+              </Link>
 
               <Link href="/gio-hang" aria-label="Giỏ hàng"
-                className="relative flex w-10 h-10 items-center justify-center text-white hover:bg-white/20 rounded-xl transition-all duration-200 hover:scale-110 active:scale-90">
-                <FiShoppingCart size={22} />
+                className="relative flex w-10 h-10 items-center justify-center text-white hover:bg-white/20 rounded-xl transition-all duration-200 hover:scale-110 active:scale-90 icon-bounce">
+                <ShoppingCart size={22} weight="duotone" />
                 {cartCount > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 bg-[#ff6600] text-white text-[10px] font-bold min-w-[18px] min-h-[18px] rounded-full flex items-center justify-center px-1 float-anim">
                     {cartCount}
@@ -169,7 +168,10 @@ export default function Header() {
               aria-label="Menu"
             >
               <span className={`transition-all duration-200 ${isMenuOpen ? "rotate-90 scale-110" : ""}`}>
-                {isMenuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
+                {isMenuOpen
+                  ? <X size={22} weight="bold" />
+                  : <List size={22} weight="bold" />
+                }
               </span>
             </button>
           </div>
@@ -203,8 +205,8 @@ export default function Header() {
               <input type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Tìm kiếm sản phẩm..."
                 className="w-full py-2.5 pl-4 pr-12 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-blue-400" />
-              <button type="submit" className="absolute right-1 top-1 bottom-1 px-3 bg-blue-600 text-white rounded-lg">
-                <FiSearch size={16} />
+              <button type="submit" className="absolute right-1 top-1 bottom-1 px-3 bg-blue-600 text-white rounded-lg flex items-center justify-center">
+                <MagnifyingGlass size={16} weight="bold" />
               </button>
             </form>
           </div>
@@ -222,17 +224,17 @@ export default function Header() {
                   <p className="font-semibold text-gray-800 text-sm">{cat.name}</p>
                   <p className="text-xs text-gray-400">{cat.productCount} sản phẩm</p>
                 </div>
-                <FiChevronRight size={16} className="text-gray-300" />
+                <CaretRight size={16} weight="bold" className="text-gray-300" />
               </Link>
             ))}
           </div>
           <div className="p-3 bg-gray-50 border-t border-gray-100 flex gap-3">
             <a href="tel:18006789" className="flex-1 flex items-center justify-center gap-2 bg-white border border-gray-200 text-gray-700 py-2.5 rounded-xl text-sm font-medium">
-              <FiPhone size={15} className="text-blue-600" />1800 6789
+              <Phone size={15} weight="duotone" className="text-blue-600" />1800 6789
             </a>
             <Link href="/gio-hang" onClick={() => setIsMenuOpen(false)}
               className="flex-1 flex items-center justify-center gap-2 bg-blue-600 text-white py-2.5 rounded-xl text-sm font-medium">
-              <FiShoppingCart size={15} />Giỏ hàng
+              <ShoppingCart size={15} weight="bold" />Giỏ hàng
             </Link>
           </div>
         </div>

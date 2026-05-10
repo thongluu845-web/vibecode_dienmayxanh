@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FiChevronRight } from "react-icons/fi";
+import { CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { Category } from "@/types";
 
 interface CategoryGridProps { categories: Category[] }
@@ -24,8 +24,9 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
           <span className="w-1 h-7 bg-blue-600 rounded-full inline-block" />
           Danh mục sản phẩm
         </h2>
-        <Link href="/san-pham" className="flex items-center gap-1 text-blue-600 hover:text-blue-700 text-sm font-semibold transition-colors">
-          Tất cả <FiChevronRight size={15} />
+        <Link href="/san-pham" className="flex items-center gap-1 text-blue-600 hover:text-blue-700 text-sm font-semibold transition-colors group">
+          Tất cả
+          <CaretRight size={15} weight="bold" className="group-hover:translate-x-0.5 transition-transform duration-200" />
         </Link>
       </div>
 
@@ -44,7 +45,7 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
               <div
                 className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl
                   shadow-lg ${c.shadow}
-                  group-hover:shadow-xl group-hover:scale-115 group-hover:-translate-y-1
+                  group-hover:shadow-xl group-hover:scale-110 group-hover:-translate-y-1
                   transition-all duration-300 ease-out
                   overflow-hidden
                 `}

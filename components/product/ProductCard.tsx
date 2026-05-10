@@ -3,9 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { FiShoppingCart, FiHeart, FiZap, FiCheck } from "react-icons/fi";
-import { AiFillStar, AiOutlineStar } from "react-icons/ai";
-import { MdVerified, MdLocalShipping } from "react-icons/md";
+import {
+  ShoppingCart, Heart, Lightning, CheckCircle,
+  Star, SealCheck, Truck,
+} from "@phosphor-icons/react";
 import { Product } from "@/types";
 import { formatPrice } from "@/lib/data";
 
@@ -17,17 +18,17 @@ interface ProductCardProps {
 function Stars({ rating }: { rating: number }) {
   return (
     <div className="flex items-center gap-0.5">
-      {[1,2,3,4,5].map((s) =>
+      {[1, 2, 3, 4, 5].map((s) =>
         s <= Math.round(rating)
-          ? <AiFillStar    key={s} size={12} className="text-yellow-400" />
-          : <AiOutlineStar key={s} size={12} className="text-gray-300"   />
+          ? <Star key={s} size={12} weight="fill"    className="text-yellow-400" />
+          : <Star key={s} size={12} weight="regular" className="text-gray-300"   />
       )}
     </div>
   );
 }
 
 export default function ProductCard({ product, showFlashSale = false }: ProductCardProps) {
-  const [added, setAdded]   = useState(false);
+  const [added,      setAdded]      = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
 
   const handleAdd = (e: React.MouseEvent) => {
@@ -57,7 +58,7 @@ export default function ProductCard({ product, showFlashSale = false }: ProductC
             alt={product.name}
             fill
             sizes="(max-width:640px) 50vw,(max-width:1024px) 33vw,25vw"
-            className="object-cover group-hover:scale-108 transition-transform duration-500 ease-out"
+            className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
           />
           {/* Shine overlay on hover */}
           <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/0 to-white/0
@@ -78,7 +79,7 @@ export default function ProductCard({ product, showFlashSale = false }: ProductC
           )}
           {showFlashSale && product.isFlashSale && (
             <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-[11px] font-bold px-2 py-0.5 rounded-lg shadow-sm flex items-center gap-0.5">
-              <FiZap size={10} />FLASH
+              <Lightning size={10} weight="fill" />FLASH
             </span>
           )}
         </div>
@@ -88,12 +89,12 @@ export default function ProductCard({ product, showFlashSale = false }: ProductC
           onClick={handleWish}
           className={`absolute top-2 right-2 w-8 h-8 backdrop-blur-sm rounded-xl flex items-center justify-center
             shadow-md opacity-0 group-hover:opacity-100
-            transition-all duration-200 hover:scale-110 active:scale-90
-            ${wishlisted ? "bg-red-500 text-white" : "bg-white/90 text-gray-500 hover:text-red-500 hover:bg-red-50"}
+            transition-all duration-200 hover:scale-110 active:scale-90 icon-pop
+            ${wishlisted ? "bg-red-500 text-white" : "bg-white/90 text-gray-400 hover:text-red-500 hover:bg-red-50"}
           `}
           aria-label="Yêu thích"
         >
-          <FiHeart size={14} className={wishlisted ? "fill-current" : ""} />
+          <Heart size={14} weight={wishlisted ? "fill" : "bold"} />
         </button>
       </Link>
 
@@ -102,7 +103,7 @@ export default function ProductCard({ product, showFlashSale = false }: ProductC
         {/* Brand */}
         <div className="flex items-center gap-1 mb-1">
           <span className="text-[11px] font-black text-blue-600 uppercase tracking-wide">{product.brand}</span>
-          <MdVerified size={11} className="text-blue-400" />
+          <SealCheck size={11} weight="duotone" className="text-blue-400" />
         </div>
 
         {/* Name */}
@@ -136,7 +137,7 @@ export default function ProductCard({ product, showFlashSale = false }: ProductC
             </span>
           )}
           <span className="text-[10px] bg-gray-50 text-gray-500 px-1.5 py-0.5 rounded-md flex items-center gap-0.5">
-            <MdLocalShipping size={11} />Giao nhanh
+            <Truck size={11} weight="duotone" />Giao nhanh
           </span>
         </div>
 
@@ -154,12 +155,12 @@ export default function ProductCard({ product, showFlashSale = false }: ProductC
         >
           {added ? (
             <>
-              <FiCheck size={15} className="animate-bounce" />
+              <CheckCircle size={15} weight="fill" className="animate-bounce" />
               <span>Đã thêm!</span>
             </>
           ) : (
             <>
-              <FiShoppingCart size={15} />
+              <ShoppingCart size={15} weight="bold" className="icon-bounce" />
               <span>Thêm vào giỏ</span>
             </>
           )}

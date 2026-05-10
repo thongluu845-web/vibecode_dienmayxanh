@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { FiChevronRight, FiShoppingCart, FiHeart, FiShare2 } from "react-icons/fi";
-import { MdVerified, MdLocalShipping, MdLoop, MdCreditCard, MdSecurity } from "react-icons/md";
+import {
+  CaretRight, ShoppingCart, Heart, ShareNetwork,
+  ShieldCheck, Truck, ArrowsClockwise, SealCheck, CreditCard,
+} from "@phosphor-icons/react/dist/ssr";
 import { getProductBySlug, products, formatPrice } from "@/lib/data";
 import StarRating from "@/components/ui/StarRating";
 import ProductCard from "@/components/product/ProductCard";
@@ -30,10 +32,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const policies = [
-  { icon: MdSecurity,      text: "Hàng chính hãng 100%", color: "text-green-500"  },
-  { icon: MdLocalShipping, text: "Giao hàng 2-4 giờ",    color: "text-blue-500"   },
-  { icon: MdLoop,          text: "Đổi trả 15 ngày",       color: "text-orange-500" },
-  { icon: MdVerified,      text: "Bảo hành 12 tháng",     color: "text-purple-500" },
+  { Icon: ShieldCheck,     text: "Hàng chính hãng 100%", color: "text-green-500"  },
+  { Icon: Truck,           text: "Giao hàng 2-4 giờ",    color: "text-blue-500"   },
+  { Icon: ArrowsClockwise, text: "Đổi trả 15 ngày",       color: "text-orange-500" },
+  { Icon: SealCheck,       text: "Bảo hành 12 tháng",     color: "text-purple-500" },
 ];
 
 export default async function ProductDetailPage({ params }: Props) {
@@ -74,9 +76,9 @@ export default async function ProductDetailPage({ params }: Props) {
         {/* Breadcrumb */}
         <nav className="text-xs text-gray-500 mb-5 flex items-center gap-1.5 flex-wrap">
           <Link href="/" className="hover:text-blue-600">Trang chủ</Link>
-          <FiChevronRight size={13} />
+          <CaretRight size={13} weight="bold" />
           <Link href={`/danh-muc/${product.categorySlug}`} className="hover:text-blue-600">{product.category}</Link>
-          <FiChevronRight size={13} />
+          <CaretRight size={13} weight="bold" />
           <span className="text-gray-800 font-medium line-clamp-1">{product.name}</span>
         </nav>
 
@@ -108,7 +110,8 @@ export default async function ProductDetailPage({ params }: Props) {
               <div className="flex items-center gap-2 mb-2 flex-wrap">
                 <Link href={`/san-pham?brand=${product.brand.toLowerCase()}`}
                   className="flex items-center gap-1 text-sm font-bold text-blue-600 hover:underline">
-                  {product.brand} <MdVerified size={15} className="text-blue-400" />
+                  {product.brand}
+                  <SealCheck size={15} weight="duotone" className="text-blue-400" />
                 </Link>
                 {product.isNew && <span className="bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded-lg">MỚI</span>}
                 {product.stock < 10 && product.stock > 0 && (
@@ -143,7 +146,7 @@ export default async function ProductDetailPage({ params }: Props) {
                 )}
                 {product.installmentAvailable && (
                   <p className="flex items-center gap-1.5 text-sm text-blue-600 font-semibold mt-2">
-                    <MdCreditCard size={16} /> Trả góp 0% – duyệt nhanh 5 phút
+                    <CreditCard size={16} weight="duotone" /> Trả góp 0% – duyệt nhanh 5 phút
                   </p>
                 )}
               </div>
@@ -157,24 +160,24 @@ export default async function ProductDetailPage({ params }: Props) {
               {/* Buttons */}
               <div className="flex gap-2 mb-5 flex-wrap">
                 <button className="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 px-4 rounded-2xl text-base transition-colors shadow-md shadow-red-200 min-w-[140px]">
-                  <FiShoppingCart size={20} /> Mua ngay
+                  <ShoppingCart size={20} weight="bold" /> Mua ngay
                 </button>
                 <button className="flex-1 flex items-center justify-center gap-2 border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-bold py-3.5 px-4 rounded-2xl text-base transition-colors min-w-[140px]">
-                  <FiShoppingCart size={20} /> Thêm giỏ
+                  <ShoppingCart size={20} weight="bold" /> Thêm giỏ
                 </button>
-                <button className="w-12 h-12 border-2 border-gray-200 hover:border-red-300 hover:bg-red-50 hover:text-red-500 rounded-2xl flex items-center justify-center text-gray-400 transition-colors flex-shrink-0" aria-label="Yêu thích">
-                  <FiHeart size={20} />
+                <button className="w-12 h-12 border-2 border-gray-200 hover:border-red-300 hover:bg-red-50 hover:text-red-500 rounded-2xl flex items-center justify-center text-gray-400 transition-colors flex-shrink-0 icon-pop" aria-label="Yêu thích">
+                  <Heart size={20} weight="duotone" />
                 </button>
                 <button className="w-12 h-12 border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 rounded-2xl flex items-center justify-center text-gray-400 transition-colors flex-shrink-0" aria-label="Chia sẻ">
-                  <FiShare2 size={20} />
+                  <ShareNetwork size={20} weight="duotone" />
                 </button>
               </div>
 
               {/* Policy pills */}
               <div className="grid grid-cols-2 gap-2">
-                {policies.map(({ icon: Icon, text, color }) => (
+                {policies.map(({ Icon, text, color }) => (
                   <div key={text} className="flex items-center gap-2 bg-gray-50 border border-gray-100 rounded-xl px-3 py-2">
-                    <Icon size={18} className={`${color} flex-shrink-0`} />
+                    <Icon size={18} weight="duotone" className={`${color} flex-shrink-0`} />
                     <span className="text-xs font-medium text-gray-700">{text}</span>
                   </div>
                 ))}
@@ -211,8 +214,9 @@ export default async function ProductDetailPage({ params }: Props) {
                 Sản phẩm liên quan
               </h2>
               <Link href={`/danh-muc/${product.categorySlug}`}
-                className="text-sm text-blue-600 hover:underline flex items-center gap-1 font-semibold">
-                Xem thêm <FiChevronRight size={14} />
+                className="text-sm text-blue-600 hover:underline flex items-center gap-1 font-semibold group">
+                Xem thêm
+                <CaretRight size={14} weight="bold" className="group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">

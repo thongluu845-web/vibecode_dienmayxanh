@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FiChevronRight } from "react-icons/fi";
+import { CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { Product } from "@/types";
 import ProductCard from "@/components/product/ProductCard";
 
@@ -19,16 +19,18 @@ export default function FeaturedProducts({
   return (
     <section>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl sm:text-2xl font-black text-gray-900 flex items-center gap-2">
+        <h2 className="text-xl sm:text-2xl font-black text-gray-900 flex items-center gap-2"
+          style={{ fontFamily: "'Rubik', sans-serif" }}>
           <span className="w-1 h-7 bg-blue-600 rounded-full inline-block" />
           {icon && <span>{icon}</span>}
           {title}
         </h2>
         <Link
           href={viewAllLink}
-          className="flex items-center gap-1 text-blue-600 hover:text-blue-700 font-semibold text-sm transition-colors"
+          className="flex items-center gap-1 text-blue-600 hover:text-blue-700 font-semibold text-sm transition-colors group"
         >
-          Xem tất cả <FiChevronRight size={15} />
+          Xem tất cả
+          <CaretRight size={15} weight="bold" className="group-hover:translate-x-0.5 transition-transform duration-200" />
         </Link>
       </div>
 

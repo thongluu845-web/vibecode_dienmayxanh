@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FiShoppingCart, FiArrowLeft } from "react-icons/fi";
-import { MdSecurity, MdLocalShipping } from "react-icons/md";
+import { ShoppingCart, ArrowLeft, ShieldCheck, Truck } from "@phosphor-icons/react/dist/ssr";
 
 export const metadata: Metadata = {
   title: "Giỏ hàng của bạn",
@@ -21,7 +20,7 @@ export default function CartPage() {
       </nav>
 
       <h1 className="text-2xl font-black text-gray-900 mb-6 flex items-center gap-2">
-        <FiShoppingCart size={24} className="text-blue-600" />
+        <ShoppingCart size={24} weight="duotone" className="text-blue-600" />
         Giỏ hàng của bạn
       </h1>
 
@@ -29,7 +28,7 @@ export default function CartPage() {
         {/* Empty state */}
         <div className="flex-1 bg-white rounded-2xl shadow-sm p-12 text-center">
           <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-5">
-            <FiShoppingCart size={40} className="text-blue-300" />
+            <ShoppingCart size={40} weight="duotone" className="text-blue-300" />
           </div>
           <h2 className="text-xl font-bold text-gray-700 mb-2">Giỏ hàng trống</h2>
           <p className="text-gray-400 text-sm mb-7">Thêm sản phẩm vào giỏ hàng để tiến hành mua sắm nhé!</p>
@@ -37,7 +36,7 @@ export default function CartPage() {
             href="/san-pham"
             className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-7 py-3 rounded-2xl transition-colors shadow-md shadow-blue-200"
           >
-            <FiArrowLeft size={18} />
+            <ArrowLeft size={18} weight="bold" />
             Tiếp tục mua sắm
           </Link>
         </div>
@@ -69,11 +68,11 @@ export default function CartPage() {
 
             <div className="space-y-2">
               {[
-                { icon: MdSecurity,      text: "Thanh toán an toàn & bảo mật" },
-                { icon: MdLocalShipping, text: "Giao hàng nhanh 2-4 giờ"       },
-              ].map(({ icon: Icon, text }) => (
+                { Icon: ShieldCheck, text: "Thanh toán an toàn & bảo mật" },
+                { Icon: Truck,       text: "Giao hàng nhanh 2-4 giờ"       },
+              ].map(({ Icon, text }) => (
                 <div key={text} className="flex items-center gap-2 text-xs text-gray-500">
-                  <Icon size={15} className="text-blue-500 flex-shrink-0" />
+                  <Icon size={15} weight="duotone" className="text-blue-500 flex-shrink-0" />
                   <span>{text}</span>
                 </div>
               ))}

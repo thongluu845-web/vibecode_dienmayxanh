@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { FiChevronRight } from "react-icons/fi";
+import { CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { categories, getProductsByCategory } from "@/lib/data";
 import ProductCard from "@/components/product/ProductCard";
 
@@ -45,7 +45,7 @@ export default async function CategoryPage({ params }: Props) {
         {/* Breadcrumb */}
         <nav className="text-xs text-gray-500 mb-5 flex items-center gap-1.5 flex-wrap">
           <Link href="/" className="hover:text-blue-600">Trang chủ</Link>
-          <FiChevronRight size={13} />
+          <CaretRight size={13} weight="bold" />
           <span className="text-gray-800 font-medium">{cat.name}</span>
         </nav>
 

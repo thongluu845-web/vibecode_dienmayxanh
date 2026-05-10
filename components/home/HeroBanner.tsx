@@ -3,15 +3,14 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { HiArrowRight } from "react-icons/hi";
+import { CaretLeft, CaretRight, ArrowRight } from "@phosphor-icons/react";
 import { Banner } from "@/types";
 
 interface HeroBannerProps { banners: Banner[] }
 
 export default function HeroBanner({ banners }: HeroBannerProps) {
-  const [cur, setCur]           = useState(0);
-  const [animKey, setAnimKey]   = useState(0); // re-trigger text animation
+  const [cur, setCur]         = useState(0);
+  const [animKey, setAnimKey] = useState(0);
 
   const next = useCallback(() => {
     setCur((p) => (p + 1) % banners.length);
@@ -48,7 +47,7 @@ export default function HeroBanner({ banners }: HeroBannerProps) {
               fill
               priority={idx === 0}
               sizes="(max-width:768px) 100vw,1200px"
-              className="object-cover scale-105 group-hover:scale-100 transition-transform duration-[6000ms] ease-out"
+              className="object-cover"
               style={{ transform: idx === cur ? "scale(1.02)" : "scale(1.08)", transition: "transform 6s ease-out" }}
             />
             {/* Gradient overlay */}
@@ -85,7 +84,8 @@ export default function HeroBanner({ banners }: HeroBannerProps) {
                     hover:-translate-y-0.5 active:scale-95 shine-hover"
                   style={{ animation: idx === cur ? "fadeInLeft 0.55s 0.5s both" : "none" }}
                 >
-                  Mua ngay <HiArrowRight size={16} />
+                  Mua ngay
+                  <ArrowRight size={16} weight="bold" />
                 </span>
               </div>
             </div>
@@ -95,17 +95,17 @@ export default function HeroBanner({ banners }: HeroBannerProps) {
 
       {/* Arrow buttons */}
       {[
-        { fn: prev, dir: "left",  Icon: FiChevronLeft,  pos: "left-3"  },
-        { fn: next, dir: "right", Icon: FiChevronRight, pos: "right-3" },
+        { fn: prev, dir: "left",  Icon: CaretLeft,  pos: "left-3"  },
+        { fn: next, dir: "right", Icon: CaretRight, pos: "right-3" },
       ].map(({ fn, dir, Icon, pos }) => (
         <button key={dir} onClick={fn}
           className={`absolute ${pos} top-1/2 -translate-y-1/2 z-20
             w-9 h-9 bg-white/80 hover:bg-white rounded-full
             flex items-center justify-center shadow-lg
-            transition-all duration-200 hover:scale-115 active:scale-90`}
+            transition-all duration-200 hover:scale-110 active:scale-90`}
           aria-label={dir === "left" ? "Slide trước" : "Slide tiếp"}
         >
-          <Icon size={19} className="text-gray-700" />
+          <Icon size={20} weight="bold" className="text-gray-700" />
         </button>
       ))}
 

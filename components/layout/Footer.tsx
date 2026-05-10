@@ -1,7 +1,13 @@
 import Link from "next/link";
-import { FiPhone, FiMail, FiMapPin } from "react-icons/fi";
-import { FaFacebookF, FaYoutube, FaTiktok } from "react-icons/fa";
-import { MdLocalShipping, MdSecurity, MdLoop, MdCreditCard } from "react-icons/md";
+import {
+  Phone, Envelope, MapPin,
+  FacebookLogo, YoutubeLogo, TiktokLogo,
+  Truck, ShieldCheck, ArrowsClockwise, CreditCard,
+} from "@phosphor-icons/react/dist/ssr";
+import type { ComponentType } from "react";
+import type { IconProps } from "@phosphor-icons/react";
+
+type PhosphorIcon = ComponentType<IconProps>;
 
 const footerCategories = [
   { name: "Điện thoại",    href: "/danh-muc/dien-thoai" },
@@ -30,11 +36,11 @@ const supports = [
   { name: "Trả góp 0%",         href: "/tra-gop" },
 ];
 
-const benefits = [
-  { icon: MdLocalShipping, title: "Giao hàng nhanh",  desc: "Nội thành 2-4 giờ",      color: "text-blue-400" },
-  { icon: MdSecurity,      title: "Hàng chính hãng",  desc: "100% chính hãng",         color: "text-green-400" },
-  { icon: MdLoop,          title: "Đổi trả 15 ngày",  desc: "Nếu lỗi sản phẩm",        color: "text-orange-400" },
-  { icon: MdCreditCard,    title: "Trả góp 0%",        desc: "Duyệt nhanh 5 phút",      color: "text-yellow-400" },
+const benefits: { icon: PhosphorIcon; title: string; desc: string; color: string }[] = [
+  { icon: Truck,            title: "Giao hàng nhanh",  desc: "Nội thành 2-4 giờ",  color: "text-blue-400"   },
+  { icon: ShieldCheck,      title: "Hàng chính hãng",  desc: "100% chính hãng",     color: "text-green-400"  },
+  { icon: ArrowsClockwise,  title: "Đổi trả 15 ngày",  desc: "Nếu lỗi sản phẩm",   color: "text-orange-400" },
+  { icon: CreditCard,       title: "Trả góp 0%",        desc: "Duyệt nhanh 5 phút", color: "text-yellow-400" },
 ];
 
 export default function Footer() {
@@ -45,9 +51,9 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {benefits.map(({ icon: Icon, title, desc, color }) => (
-              <div key={title} className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Icon size={22} className={color} />
+              <div key={title} className="flex items-center gap-3 group">
+                <div className="w-10 h-10 bg-white/10 group-hover:bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 icon-pop">
+                  <Icon size={22} weight="duotone" className={color} />
                 </div>
                 <div>
                   <p className="text-white font-bold text-sm leading-tight">{title}</p>
@@ -77,34 +83,34 @@ export default function Footer() {
             </p>
             <div className="space-y-2.5 text-sm">
               <a href="tel:18006789" className="flex items-center gap-2 hover:text-white transition-colors">
-                <FiPhone size={14} className="text-blue-400 flex-shrink-0" />
+                <Phone size={14} weight="duotone" className="text-blue-400 flex-shrink-0" />
                 <span>1800 6789 <span className="text-gray-500">(miễn phí)</span></span>
               </a>
               <a href="mailto:cskh@dienmayxanh.com" className="flex items-center gap-2 hover:text-white transition-colors">
-                <FiMail size={14} className="text-blue-400 flex-shrink-0" />
+                <Envelope size={14} weight="duotone" className="text-blue-400 flex-shrink-0" />
                 <span>cskh@dienmayxanh.com</span>
               </a>
               <div className="flex items-start gap-2">
-                <FiMapPin size={14} className="text-blue-400 flex-shrink-0 mt-0.5" />
+                <MapPin size={14} weight="duotone" className="text-blue-400 flex-shrink-0 mt-0.5" />
                 <span>222 Điện Biên Phủ, P.7, Q.3, TP.HCM</span>
               </div>
             </div>
             {/* Social */}
             <div className="flex gap-2 mt-5">
               {[
-                { href: "#", icon: FaFacebookF,  bg: "hover:bg-[#1877f2]", label: "Facebook" },
-                { href: "#", icon: FaYoutube,    bg: "hover:bg-[#ff0000]", label: "YouTube"  },
-                { href: "#", icon: FaTiktok,     bg: "hover:bg-gray-600",  label: "TikTok"   },
-              ].map(({ href, icon: Icon, bg, label }) => (
+                { href: "#", Icon: FacebookLogo, bg: "hover:bg-[#1877f2]", label: "Facebook" },
+                { href: "#", Icon: YoutubeLogo,  bg: "hover:bg-[#ff0000]", label: "YouTube"  },
+                { href: "#", Icon: TiktokLogo,   bg: "hover:bg-gray-600",  label: "TikTok"   },
+              ].map(({ href, Icon, bg, label }) => (
                 <a
                   key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className={`w-9 h-9 bg-gray-700 ${bg} rounded-xl flex items-center justify-center text-white transition-colors`}
+                  className={`w-9 h-9 bg-gray-700 ${bg} rounded-xl flex items-center justify-center text-white transition-all duration-200 hover:scale-110 active:scale-90`}
                 >
-                  <Icon size={16} />
+                  <Icon size={16} weight="fill" />
                 </a>
               ))}
             </div>

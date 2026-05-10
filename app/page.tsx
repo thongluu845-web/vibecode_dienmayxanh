@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
-import { MdLocalShipping, MdSecurity, MdLoop, MdCreditCard, MdStore, MdPeople, MdStar, MdVerified } from "react-icons/md";
+import {
+  Truck, ShieldCheck, ArrowsClockwise, CreditCard,
+  Storefront, UsersThree, Star, SealCheck,
+} from "@phosphor-icons/react/dist/ssr";
 import { banners, categories, getFeaturedProducts, getFlashSaleProducts, products } from "@/lib/data";
 import HeroBanner          from "@/components/home/HeroBanner";
 import CategoryGrid        from "@/components/home/CategoryGrid";
@@ -26,17 +29,17 @@ const jsonLd = {
 };
 
 const benefits = [
-  { icon: MdLocalShipping, title: "Giao hàng 2 giờ",  desc: "Nội thành toàn quốc",  color: "bg-blue-100   text-blue-600"   },
-  { icon: MdSecurity,      title: "100% chính hãng",  desc: "Cam kết chính hãng",   color: "bg-green-100  text-green-600"  },
-  { icon: MdLoop,          title: "Đổi trả 15 ngày",  desc: "Miễn phí đổi trả",     color: "bg-orange-100 text-orange-600" },
-  { icon: MdCreditCard,    title: "Trả góp 0%",        desc: "Duyệt nhanh 5 phút",  color: "bg-purple-100 text-purple-600" },
+  { Icon: Truck,           title: "Giao hàng 2 giờ",  desc: "Nội thành toàn quốc",  color: "bg-blue-100   text-blue-600"   },
+  { Icon: ShieldCheck,     title: "100% chính hãng",  desc: "Cam kết chính hãng",   color: "bg-green-100  text-green-600"  },
+  { Icon: ArrowsClockwise, title: "Đổi trả 15 ngày",  desc: "Miễn phí đổi trả",     color: "bg-orange-100 text-orange-600" },
+  { Icon: CreditCard,      title: "Trả góp 0%",        desc: "Duyệt nhanh 5 phút",  color: "bg-purple-100 text-purple-600" },
 ];
 
 const stats = [
-  { icon: MdStore,    value: "2.000+",  label: "Cửa hàng toàn quốc" },
-  { icon: MdPeople,   value: "10 triệu", label: "Khách hàng tin dùng" },
-  { icon: MdStar,     value: "4.9 ★",   label: "Điểm đánh giá" },
-  { icon: MdVerified, value: "100%",     label: "Hàng chính hãng" },
+  { Icon: Storefront,  value: "2.000+",    label: "Cửa hàng toàn quốc" },
+  { Icon: UsersThree,  value: "10 triệu",  label: "Khách hàng tin dùng" },
+  { Icon: Star,        value: "4.9 ★",     label: "Điểm đánh giá"       },
+  { Icon: SealCheck,   value: "100%",      label: "Hàng chính hãng"     },
 ];
 
 const brands = ["Apple", "Samsung", "Xiaomi", "LG", "Sony", "Panasonic", "HP", "Dell"];
@@ -81,14 +84,14 @@ export default function HomePage() {
         {/* ── Benefits ── */}
         <ScrollReveal variant="up">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            {benefits.map(({ icon: Icon, title, desc, color }, i) => (
+            {benefits.map(({ Icon, title, desc, color }, i) => (
               <div key={title}
                 className="bg-white rounded-2xl p-4 flex items-center gap-3 shadow-sm
-                  hover:shadow-md hover:-translate-y-1 transition-all duration-300 cursor-default"
+                  hover:shadow-md hover:-translate-y-1 transition-all duration-300 cursor-default group"
                 style={{ animationDelay: `${i * 80}ms` }}
               >
-                <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${color}`}>
-                  <Icon size={24} />
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${color} icon-pop`}>
+                  <Icon size={24} weight="duotone" />
                 </div>
                 <div className="min-w-0">
                   <p className="font-bold text-gray-800 text-sm leading-tight truncate">{title}</p>
@@ -110,13 +113,13 @@ export default function HomePage() {
         <ScrollReveal variant="zoom" delay={100}>
           <div className="bg-gradient-to-r from-[#0055b3] to-[#0077e6] rounded-2xl p-5 sm:p-6">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
-              {stats.map(({ icon: Icon, value, label }, i) => (
+              {stats.map(({ Icon, value, label }, i) => (
                 <div key={label}
                   className="flex flex-col items-center text-center gap-2 group"
                   style={{ animationDelay: `${i * 100}ms` }}
                 >
-                  <div className="w-12 h-12 bg-white/15 group-hover:bg-white/25 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110">
-                    <Icon size={24} className="text-yellow-300" />
+                  <div className="w-12 h-12 bg-white/15 group-hover:bg-white/25 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 icon-bounce">
+                    <Icon size={24} weight="duotone" className="text-yellow-300" />
                   </div>
                   <p className="text-2xl sm:text-3xl font-black text-white"
                     style={{ fontFamily: "'Rubik', sans-serif" }}>
