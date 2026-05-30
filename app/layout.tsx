@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { headers } from "next/headers";
 import "./globals.css";
-import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
@@ -11,28 +12,29 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://dienmayxanh.com"),
+  metadataBase: new URL("https://dienmayluuthao.vn"),
+  icons: {
+    icon: "/favicon.svg",
+  },
   title: {
-    default: "Điện Máy Xanh - Mua sắm điện máy chính hãng, giá tốt nhất",
-    template: "%s | Điện Máy Xanh",
+    default: "Điện Máy Lưu Thảo - Điện lạnh Long Xuyên",
+    template: "%s | Điện Máy Lưu Thảo",
   },
   description:
-    "Điện Máy Xanh - Hệ thống siêu thị điện máy hàng đầu Việt Nam. Mua điện thoại, laptop, tivi, tủ lạnh, máy giặt chính hãng với giá rẻ nhất, giao hàng nhanh, lắp đặt tận nơi.",
+    "Điện Máy Lưu Thảo tại 24 Ung Văn Khiêm, Đông Xuyên, TP. Long Xuyên, An Giang. Hotline 070.6767.921. Mua bán, lắp đặt, bảo trì, sửa chữa và vệ sinh điện lạnh.",
   keywords: [
-    "điện máy xanh",
-    "mua điện thoại",
-    "laptop giá rẻ",
-    "tivi 4k",
-    "tủ lạnh",
-    "máy giặt",
-    "điều hòa",
-    "điện máy chính hãng",
-    "mua sắm trực tuyến",
-    "siêu thị điện máy",
+    "Điện Máy Lưu Thảo",
+    "điện lạnh Long Xuyên",
+    "máy lạnh Long Xuyên",
+    "máy giặt Long Xuyên",
+    "tủ lạnh Long Xuyên",
+    "máy nước nóng Long Xuyên",
+    "thu máy cũ",
+    "đổi máy bù tiền",
   ],
-  authors: [{ name: "Điện Máy Xanh" }],
-  creator: "Điện Máy Xanh",
-  publisher: "Công ty CP Thế Giới Di Động",
+  authors: [{ name: "Điện Máy Lưu Thảo" }],
+  creator: "Điện Máy Lưu Thảo",
+  publisher: "Điện Máy Lưu Thảo",
   robots: {
     index: true,
     follow: true,
@@ -47,31 +49,28 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "vi_VN",
-    url: "https://dienmayxanh.com",
-    siteName: "Điện Máy Xanh",
-    title: "Điện Máy Xanh - Mua sắm điện máy chính hãng, giá tốt nhất",
+    url: "https://dienmayluuthao.vn",
+    siteName: "Điện Máy Lưu Thảo",
+    title: "Điện Máy Lưu Thảo - Điện lạnh Long Xuyên",
     description:
-      "Hệ thống siêu thị điện máy hàng đầu Việt Nam. Điện thoại, laptop, tivi, tủ lạnh, máy giặt chính hãng, giá rẻ nhất.",
+      "Mua bán, lắp đặt, bảo trì, sửa chữa, vệ sinh máy lạnh, tủ lạnh, máy giặt, máy nước nóng. Hotline 070.6767.921.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/assets/dien-lanh/hero-dien-lanh.png",
         width: 1200,
         height: 630,
-        alt: "Điện Máy Xanh",
+        alt: "Điện Máy Lưu Thảo",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Điện Máy Xanh - Mua sắm điện máy chính hãng",
-    description: "Hệ thống siêu thị điện máy hàng đầu Việt Nam",
-    images: ["/og-image.jpg"],
+    title: "Điện Máy Lưu Thảo - Điện lạnh Long Xuyên",
+    description: "Hotline 070.6767.921. Có thu máy cũ hoặc đổi máy bù tiền.",
+    images: ["/assets/dien-lanh/hero-dien-lanh.png"],
   },
   alternates: {
-    canonical: "https://dienmayxanh.com",
-  },
-  verification: {
-    google: "google-site-verification-token",
+    canonical: "https://dienmayluuthao.vn",
   },
 };
 
@@ -79,22 +78,34 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#0066CC",
+  themeColor: "#0284c7",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headerList = await headers();
+  const pathname = headerList.get("x-pathname") ?? "";
+  const isAdminRoute = pathname.startsWith("/admin");
+
   return (
     <html lang="vi" className={inter.variable}>
       <body className={`${inter.className} antialiased`}>
-        <Header />
-        <main id="main-content" className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
+        {isAdminRoute ? (
+          <main id="main-content" className="min-h-screen">
+            {children}
+          </main>
+        ) : (
+          <>
+            <Header />
+            <main id="main-content" className="min-h-screen">
+              {children}
+            </main>
+            <Footer />
+          </>
+        )}
       </body>
     </html>
   );

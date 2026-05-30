@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import SearchOutlined from "@mui/icons-material/SearchOutlined";
-import { products } from "@/lib/data";
+import { Search } from "lucide-react";
+import { getProducts } from "@/lib/catalog";
 import ProductCard from "@/components/product/ProductCard";
 
 interface Props { searchParams: Promise<{ q?: string }> }
 
+export const dynamic = "force-dynamic";
+export const revalidate = 300;
+
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const { q } = await searchParams;
   return {
-    title: q ? `Tìm kiếm "${q}" – Điện Máy Xanh` : "Tìm kiếm sản phẩm",
-    description: `Kết quả tìm kiếm cho "${q ?? ""}" tại Điện Máy Xanh`,
+    title: q ? `Tìm kiếm "${q}" - Điện Máy Lưu Thảo` : "Tìm kiếm sản phẩm",
+    description: `Kết quả tìm kiếm cho "${q ?? ""}" tại Điện Máy Lưu Thảo`,
+    alternates: { canonical: "https://dienmayluuthao.vn/tim-kiem" },
     robots: { index: false, follow: true },
   };
 }
@@ -18,6 +22,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 export default async function SearchPage({ searchParams }: Props) {
   const { q: rawQ } = await searchParams;
   const q = rawQ?.toLowerCase() ?? "";
+  const products = await getProducts();
   const results = q ? products.filter((p) =>
     p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q) ||
     p.category.toLowerCase().includes(q) || p.tags.some((t) => t.includes(q))
@@ -36,20 +41,20 @@ export default async function SearchPage({ searchParams }: Props) {
       <form method="GET" action="/tim-kiem" className="mb-7 max-w-2xl">
         <div className="relative">
           <input type="search" name="q" defaultValue={rawQ}
-            placeholder="Nhập tên sản phẩm, thương hiệu..."
+            placeholder="Nhập máy lạnh, máy giặt, tủ lạnh..."
             className="w-full py-3.5 pl-5 pr-14 rounded-2xl border-2 border-gray-200 focus:border-blue-400 focus:outline-none text-sm shadow-sm" />
           <button type="submit"
             className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white p-2.5 rounded-xl transition-colors flex items-center justify-center icon-pop">
-            <SearchOutlined style={{ fontSize: 19 }} />
+            <Search size={19} />
           </button>
         </div>
       </form>
 
       {!q ? (
         <div className="bg-white rounded-2xl shadow-sm p-16 text-center">
-          <SearchOutlined style={{ fontSize: 48 }} className="text-gray-200 mx-auto mb-4" />
+          <Search size={48} className="text-gray-200 mx-auto mb-4" />
           <p className="text-gray-500 font-bold text-lg mb-1">Tìm kiếm sản phẩm</p>
-          <p className="text-gray-400 text-sm">Nhập tên sản phẩm, thương hiệu hoặc danh mục</p>
+          <p className="text-gray-400 text-sm">Nhập tên sản phẩm điện lạnh, thương hiệu hoặc danh mục</p>
         </div>
       ) : (
         <>
@@ -60,11 +65,11 @@ export default async function SearchPage({ searchParams }: Props) {
           </h1>
           {results.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
-              {results.map((p) => <ProductCard key={p.id} product={p} />)}
+              {results.map((p, index) => <ProductCard key={p.id} product={p} priority={index < 4} />)}
             </div>
           ) : (
             <div className="bg-white rounded-2xl shadow-sm p-16 text-center">
-              <div className="text-5xl mb-4">🔍</div>
+              <Search size={48} className="mx-auto mb-4 text-gray-200" />
               <p className="text-gray-500 font-bold mb-5">Không tìm thấy sản phẩm phù hợp</p>
               <Link href="/san-pham" className="inline-block bg-blue-600 text-white px-7 py-3 rounded-2xl font-bold hover:bg-blue-700 transition-colors">Xem tất cả sản phẩm</Link>
             </div>

@@ -1,5 +1,6 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
-import ChevronRightOutlined from "@mui/icons-material/ChevronRightOutlined";
+import { ChevronRight } from "lucide-react";
 import { Product } from "@/types";
 import ProductCard from "@/components/product/ProductCard";
 
@@ -7,28 +8,37 @@ interface FeaturedProductsProps {
   products: Product[];
   title: string;
   viewAllLink?: string;
-  icon?: string;
+  icon?: ReactNode;
+  eyebrow?: string;
 }
 
-export default function FeaturedProducts({ products, title, viewAllLink = "/san-pham", icon }: FeaturedProductsProps) {
+export default function FeaturedProducts({
+  products,
+  title,
+  viewAllLink = "/san-pham",
+  icon,
+  eyebrow,
+}: FeaturedProductsProps) {
   return (
     <section>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl sm:text-2xl font-black text-gray-900 flex items-center gap-2" style={{ fontFamily: "'Rubik', sans-serif" }}>
-          <span className="w-1 h-7 bg-blue-600 rounded-full inline-block" />
-          {icon && <span>{icon}</span>}
-          {title}
-        </h2>
-        <Link href={viewAllLink} className="flex items-center gap-1 text-blue-600 hover:text-blue-700 font-semibold text-sm transition-colors group">
+      <div className="mb-4 flex items-end justify-between gap-4">
+        <div>
+          {eyebrow && <p className="mb-1 text-xs font-black uppercase text-blue-600">{eyebrow}</p>}
+          <h2 className="flex items-center gap-2 text-xl font-black text-gray-950 sm:text-2xl">
+            {icon && <span className="inline-flex text-blue-600">{icon}</span>}
+            {title}
+          </h2>
+        </div>
+        <Link href={viewAllLink} className="flex items-center gap-1 rounded-full bg-blue-50 px-3 py-2 text-sm font-bold text-blue-700 transition hover:bg-blue-100">
           Xem tất cả
-          <ChevronRightOutlined style={{ fontSize: 15 }} className="group-hover:translate-x-0.5 transition-transform duration-200" />
+          <ChevronRight size={16} />
         </Link>
       </div>
 
-      <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1 sm:grid sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:overflow-visible sm:pb-0">
-        {products.map((product) => (
-          <div key={product.id} className="flex-shrink-0 w-44 sm:w-auto">
-            <ProductCard product={product} />
+      <div className="flex gap-3 overflow-x-auto pb-1 no-scrollbar sm:grid sm:grid-cols-3 sm:overflow-visible lg:grid-cols-4 xl:grid-cols-5">
+        {products.map((product, index) => (
+          <div key={product.id} className="w-44 flex-shrink-0 sm:w-auto">
+            <ProductCard product={product} priority={index < 4} />
           </div>
         ))}
       </div>

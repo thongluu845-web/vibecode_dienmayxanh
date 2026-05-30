@@ -6,10 +6,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/gio-hang", "/tai-khoan", "/api/", "/_next/"],
+        disallow: ["/gio-hang", "/tai-khoan", "/api/", "/auth/"],
       },
     ],
-    sitemap: "https://dienmayxanh.com/sitemap.xml",
-    host: "https://dienmayxanh.com",
+    sitemap: "https://dienmayluuthao.vn/sitemap.xml",
+    host: "https://dienmayluuthao.vn",
   };
 }

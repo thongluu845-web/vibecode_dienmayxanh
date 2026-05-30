@@ -3,5 +3,7 @@ Allow: /
 Disallow: /gio-hang
 Disallow: /tai-khoan
 Disallow: /api/
+Disallow: /auth/
 
-Sitemap: https://dienmayxanh.com/sitemap.xml
+Sitemap: https://dienmayluuthao.vn/sitemap.xml
+Host: https://dienmayluuthao.vn

@@ -1,9 +1,9 @@
+/* ─── Google Fonts: Rubik + Nunito Sans ─── */
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800&family=Rubik:wght@400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* ─── Google Fonts: Rubik + Nunito Sans ─── */
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800&family=Rubik:wght@400;500;600;700;800;900&display=swap');
 
 @layer base {
   *, *::before, *::after { box-sizing: border-box; }
@@ -11,14 +11,18 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    overflow-x: hidden;
   }
 
   body {
     font-family: 'Nunito Sans', 'Segoe UI', ui-sans-serif, system-ui, sans-serif;
-    background-color: #f8fafc;
+    background:
+      radial-gradient(circle at top left, rgba(14,165,233,.14), transparent 28rem),
+      linear-gradient(180deg, #f3f8ff 0%, #f8fafc 42%, #f1f5f9 100%);
     color: #0f172a;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5 {
@@ -87,6 +91,12 @@
 @keyframes floatBadge {
   0%, 100% { transform: translateY(0);    }
   50%       { transform: translateY(-4px); }
+}
+
+/* Infinite brand conveyor */
+@keyframes brandMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 /* Glow pulse CTA */
@@ -166,6 +176,24 @@
 ══════════════════════════════════════ */
 
 @layer utilities {
+  .container-custom {
+    width: min(100% - 2rem, 80rem);
+    margin-inline: auto;
+  }
+
+  .section-panel {
+    border: 1px solid rgba(226, 232, 240, .95);
+    background: rgba(255, 255, 255, .94);
+    box-shadow: 0 18px 48px -32px rgba(15, 23, 42, .45);
+  }
+
+  .retail-grid-bg {
+    background-image:
+      linear-gradient(rgba(14, 116, 198, .08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(14, 116, 198, .08) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
   /* Hide scrollbar */
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -200,6 +228,16 @@
 
   /* Float */
   .float-anim { animation: floatBadge 2.8s ease-in-out infinite; }
+
+  .brand-marquee-track {
+    animation: brandMarquee 28s linear infinite;
+    will-change: transform;
+  }
+
+  .brand-marquee:hover .brand-marquee-track,
+  .brand-marquee:focus-within .brand-marquee-track {
+    animation-play-state: paused;
+  }
 
   /* Pulse ring */
   .pulse-ring { animation: pulseRing 1.8s ease-out infinite; }
@@ -265,4 +303,15 @@
 
   /* Phosphor duotone color helpers — override the secondary layer opacity */
   .ph-duotone-white [class*="__secondary"] { opacity: 0.4; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-marquee {
+    overflow-x: auto;
+  }
+
+  .brand-marquee-track {
+    animation: none !important;
+    will-change: auto;
+  }
 }
